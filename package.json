@@ -1,0 +1,19 @@
+{
+  "name": "sentinelops-ai",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm-run-all --parallel dev:api dev:web",
+    "dev:api": "npm --workspace @sentinelops/api run dev",
+    "dev:web": "npm --workspace @sentinelops/web run dev",
+    "build": "npm --workspace @sentinelops/api run build && npm --workspace @sentinelops/web run build",
+    "test": "npm --workspace @sentinelops/api run test && npm --workspace @sentinelops/web run test",
+    "lint": "npm --workspace @sentinelops/api run lint && npm --workspace @sentinelops/web run lint"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

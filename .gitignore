@@ -1,0 +1,41 @@
+# SentinelOps AI — Node.js / npm
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment secrets — never commit real .env files
+.env
+.env.local
+.env.*.local
+apps/api/.env
+apps/web/.env.local
+
+# Next.js build output
+apps/web/.next/
+apps/web/out/
+
+# API build output
+apps/api/dist/
+
+# Prisma generated client (regenerated on install)
+node_modules/.prisma/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+logs/
+
+# Test coverage
+coverage/
+
+# Turbo / cache
+.turbo/

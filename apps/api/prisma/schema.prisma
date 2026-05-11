@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String      @id @default(cuid())
+  name         String
+  email        String      @unique
+  passwordHash String
+  role         Role        @default(ANALYST)
+  workflows    Workflow[]
+  auditLogs    AuditLog[]
+  createdAt    DateTime    @default(now())
+}
+
+model Workflow {
+  id             String          @id @default(cuid())
+  title          String
+  input          String
+  declaredIntent String?
+  detectedIntent String?
+  riskScore      Int             @default(0)
+  decision       PolicyAction    @default(ALLOW)
+  modelResponse  String?
+  userId         String
+  user           User            @relation(fields: [userId], references: [id])
+  events         WorkflowEvent[]
+  findings       RiskFinding[]
+  createdAt      DateTime        @default(now())
+}
+
+model WorkflowEvent {
+  id         String   @id @default(cuid())
+  workflowId String
+  stage      String
+  message    String
+  createdAt  DateTime @default(now())
+  workflow   Workflow @relation(fields: [workflowId], references: [id])
+}
+
+model PolicyRule {
+  id          String       @id @default(cuid())
+  name        String
+  condition   String
+  action      PolicyAction
+  priority    Int          @default(100)
+  enabled     Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+}
+
+model RiskFinding {
+  id         String   @id @default(cuid())
+  workflowId String
+  category   String
+  detail     String
+  score      Int
+  workflow   Workflow @relation(fields: [workflowId], references: [id])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
+  resource   String
+  outcome    String
+  riskScore  Int      @default(0)
+  metadata   Json?
+  createdAt  DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  ANALYST
+  AUDITOR
+}
+
+enum PolicyAction {
+  ALLOW
+  DENY
+  HUMAN_REVIEW
+  QUARANTINE
+  RATE_LIMIT
+}

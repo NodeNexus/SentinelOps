@@ -10,8 +10,6 @@
     "skipLibCheck": true
   },
   "include": [
-    "src",
-    "prisma/seed.ts",
-    "tests"
+    "src"
   ]
 }

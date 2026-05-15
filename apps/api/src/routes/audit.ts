@@ -22,7 +22,7 @@ router.get("/export", requireAuth, requireRole("ADMIN", "AUDITOR"), async (_req,
   const logs = await prisma.auditLog.findMany({ orderBy: { createdAt: "desc" }, take: 500 });
   const headers = ["id", "action", "resource", "outcome", "riskScore", "createdAt"];
   const csv = [headers.join(",")]
-    .concat(logs.map((l) => [l.id, l.action, l.resource, l.outcome, l.riskScore, l.createdAt.toISOString()].join(",")))
+    .concat(logs.map((l: any) => [l.id, l.action, l.resource, l.outcome, l.riskScore, l.createdAt.toISOString()].join(",")))
     .join("\n");
   res.setHeader("Content-Type", "text/csv");
   res.send(csv);

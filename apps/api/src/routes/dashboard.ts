@@ -16,7 +16,7 @@ router.get("/stats", requireAuth, async (_req, res) => {
     totalRequests: total,
     blockedRequests: blocked,
     humanReviewQueue: humanReview,
-    topRiskCategories: topRisk.map((r) => ({ category: r.category, count: r._count }))
+    topRiskCategories: topRisk.map((r: any) => ({ category: r.category, count: r._count }))
   });
 });
 
